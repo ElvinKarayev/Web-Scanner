@@ -48,28 +48,52 @@ print("\033[94m" + ascii_txt+"\33[0m")
 
 
 print("\033[91mHansini islətmək istiyirsiz?\033[0m")
+
 print("""\033[92m1.Directory Enumeration
 2.SubDomain Enumeration""")
+
 user_choice=int(input("burda qeyd eləyin->\033[0m "))
+
 if (user_choice==1):
+
     domain=input("\033[93mDomaini girin (e.g., example.com):\033[0m ")
+
     directory_file=open(input("\033[93mDirectorylerin olduğu listin yerini girin (e.g., /usr/share/dict/wordlist-probable.txt):\033[0m ")).read()
+
     rate=int(input("\033[93mdirectorylerin yoxlanilmasini hansi suretde istiyirsiz?(e.g., 3) Note: 20 den yuxari secseniz avtomatik 20 e dusecey\nbura qeyd edin ->\033[0m "))
+
     if (rate>20):
+
         rate = 20
+
     elif (rate<1):
+
         rate=1
+
     directories=directory_file.splitlines()
+
     found_directories=directoryEnum.Enumerate(domain,directories,rate)
+
     if (not found_directories):
+
         print("Directoryler tapilmadi")
+
     else:
+
         os.system("cls")
+
         for url, status in found_directories:
+
             print("\033[94m-----------------------------------------------")
+
             print(f"URL: {url}, Status Code: {status}")
+
             print("-----------------------------------------------\033[0m")
+
 elif(user_choice==2):
+
     target_domain=input("\033[93mDomaini girin (e.g., example.com):\033[0m ")
+
     list=subdomain.load_subdomains_from_file("C://Users/PC/GIT/Web-Scanner/WebScanner/sub_wordlists.txt")
+
     asyncio.run(subdomain.enumerate_subdomains(target_domain,list))
