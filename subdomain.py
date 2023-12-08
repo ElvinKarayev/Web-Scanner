@@ -1,7 +1,5 @@
-import os
-import requests
-import subdomain
-import directoryEnum
+import asyncio
+import aiohttp
 import pyfiglet
 
 ascii_txt = """"
@@ -44,30 +42,39 @@ ascii_txt = """"
                      J5:   .5Y  Y5. !5555PY !5555PY ~57  :JGGJ:  ~5555PY  .?PGY^                    
 
 """
-print("\033[94m" + ascii_txt+"\33[0m")
+print("\033[94m" + ascii_txt)
+
+MAX_CONCURRENT_REQUESTS = 10  
 
 
-print("\033[91mHansini islətmək istiyirsiz?\033[0m")
-print("""\033[92m1.Directory Enumeration
-2.SubDomain Enumeration""")
-user_choice=int(input("burda qeyd eləyin->\033[0m "))
-if (user_choice==1):
-    domain=input("Domaini girin (e.g., example.com): ")
-    directory_file=open(input("Directorylerin olduğu listin yerini girin (e.g., /usr/share/dict/wordlist-probable.txt): ")).read()
-    rate=int(input("directorylerin yoxlanilmasini hansi suretde istiyirsiz?(e.g., 3) Note: 20 den yuxari secseniz avtomatik 20 e dusecey\nbura qeyd edin -> "))
-    if (rate>20):
-        rate = 20
-    elif (rate<1):
-        rate=1
-    directories=directory_file.splitlines()
-    found_directories=directoryEnum.Enumerate(domain,directories,rate)
-    if (not found_directories):
-        print("Directoryler tapilmadi")
-    else:
-        os.system("cls")
-        for url, status in found_directories:
-            print("\033[94m-----------------------------------------------")
-            print(f"URL: {url}, Status Code: {status}")
-            print("-----------------------------------------------\033[0m")
-elif(user_choice==2):
-    subdomain.main()
+async def fetch(session, semaphore, sub, target_domain):
+    url = f"http://{sub}.{target_domain}"
+    try:
+        async with semaphore, session.get(url) as response:
+            if response.status == 200:
+                print("\033[92mValid domain:\033[0m", url)
+                print("\033[90mStatus:200\033[0m")
+            elif response.status == 401:
+                print("\033[92mValid domain:\033[0m", url) 
+                print("\033[90mStatus:401\033[0m")
+    except aiohttp.ClientError:
+        pass
+
+
+async def enumerate():
+    target_domain = input("\033[93mDomaini girin (e.g., example.com):\033[0m ").strip()
+
+    sub_list = open("./sub_wordlists.txt").read()
+    subs = sub_list.splitlines()
+
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
+
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch(session, semaphore, sub, target_domain) for sub in subs]
+        await asyncio.gather(*tasks)
+
+def main():
+    asyncio.run(enumerate())
+
+
+    
