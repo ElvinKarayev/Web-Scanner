@@ -1,6 +1,0 @@
-virtualweb
-virtuaserver
-virtuo
-support
-admin
-channel
