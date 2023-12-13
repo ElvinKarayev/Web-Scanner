@@ -1,0 +1,75 @@
+import re
+from datetime import datetime
+
+def analyze_logs(log_file_path):
+    with open(log_file_path, 'r') as file:
+        log_lines = file.readlines()
+
+    sshd_pattern = re.compile(r'(\w{3} \d+ \d+:\d+:\d+) .*?sshd\(pam_unix\)\[\d+\]: authentication failure; logname= uid=0 euid=0 tty=NODEVssh ruser= rhost=(\S+).*?user=([^\s]+)')
+    ftpd_pattern = re.compile(r'(\w{3} \d+ \d+:\d+:\d+) .*?ftpd\[\d+\]: connection from (\S+) \((\S+)\) at (\w{3} \w{3} \d+ \d+:\d+:\d+ \d+)')
+    sudo_pattern = re.compile(r'(\w{3} \d+ \d+:\d+:\d+) \S+ sudo\[(\d+)\]: (\S+) : TTY=(\S+) ; PWD=(\S+) ; USER=(\S+) ; COMMAND=(.+)$')
+    user_specific_pattern = re.compile(r'(\w{3} \d+ \d+:\d+:\d+) .*?user=([^\s]+)')
+
+    alerts = {
+        'FTP': [],
+        'SSH': [],
+        'Sudo': [],
+        'User-Specific': [],
+    }
+
+    for line in log_lines:
+        match_ftpd = ftpd_pattern.search(line)
+        if match_ftpd:
+            date_str, ip_address, host, connection_time = match_ftpd.groups()
+            current_year = datetime.now().year
+            date_obj = datetime.strptime(f"{date_str} {current_year}", "%b %d %H:%M:%S %Y")
+            formatted_date = date_obj.strftime("%Y-%m-%d %H:%M:%S")
+            alerts['FTP'].append(
+                f"ALERT: FTP Connection - Date: {formatted_date}, IP: {ip_address}, Host: {host}, Connection Time: {connection_time}")
+
+        match_sshd = sshd_pattern.search(line)
+        if match_sshd:
+            date_str, ip_address, username = match_sshd.groups()
+            current_year = datetime.now().year
+            date_obj = datetime.strptime(f"{date_str} {current_year}", "%b %d %H:%M:%S %Y")
+            formatted_date = date_obj.strftime("%Y-%m-%d %H:%M:%S")
+            alerts['SSH'].append(
+                f"ALERT: SSH Authentication failure - Date: {formatted_date}, IP: {ip_address}, Username: {username}")
+
+        match_sudo = sudo_pattern.search(line)
+        if match_sudo:
+            date_str, process_id, user, tty, pwd, username, command = match_sudo.groups()
+            current_year = datetime.now().year
+            date_obj = datetime.strptime(f"{date_str} {current_year}", "%b %d %H:%M:%S %Y")
+            formatted_date = date_obj.strftime("%Y-%m-%d %H:%M:%S")
+            alerts['Sudo'].append(
+                f"ALERT: Sudo Command detected - Date: {formatted_date}, User: {username}, Command: {command}")
+
+        # Check for user-specific logs
+        match_user_specific = user_specific_pattern.search(line)
+        if match_user_specific:
+            date_str, matched_user = match_user_specific.groups()
+            current_year = datetime.now().year
+            date_obj = datetime.strptime(f"{date_str} {current_year}", "%b %d %H:%M:%S %Y")
+            formatted_date = date_obj.strftime("%Y-%m-%d %H:%M:%S")
+            alerts['User-Specific'].append(
+                f"ALERT: User-Specific Log - Date: {formatted_date}, User: {matched_user}, Log: {line.strip()}")
+
+    return alerts
+
+def write_to_file(alerts, output_folder="output"):
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    for alert_type, alert_list in alerts.items():
+        output_file = os.path.join(output_folder, f"{alert_type.lower()}_alerts.txt")
+        with open(output_file, 'w') as file:
+            for alert in alert_list:
+                file.write(alert + '\n')
+
+if __name__ == "__main__":
+    import os
+
+    log_file_path = 'C:\\Users\\Mehemmedeli\\Desktop\\log.txt'
+    alerts = analyze_logs(log_file_path)
+    write_to_file(alerts)
