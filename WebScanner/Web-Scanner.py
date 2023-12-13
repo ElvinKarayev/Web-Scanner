@@ -94,6 +94,8 @@ elif(user_choice==2):
 
     target_domain=input("\033[93mDomaini girin (e.g., example.com):\033[0m ")
 
-    list=subdomain.load_subdomains_from_file("C://Users/PC/GIT/Web-Scanner/WebScanner/sub_wordlists.txt")
+    #list=subdomain.load_subdomains_from_file("/Users/elvingarayev/Internship_Project/Web-Scanner/WebScanner/sub_wordlists.txt")
 
-    asyncio.run(subdomain.enumerate_subdomains(target_domain,list))
+    #asyncio.run(subdomain.enumerate_subdomains(target_domain,list))
+    print(subdomain.extract_subdomains_from_crtSH(target_domain))
+
