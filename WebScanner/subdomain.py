@@ -4,18 +4,19 @@ import requests
 from bs4 import BeautifulSoup
 
 MAX_CONCURRENT_REQUESTS=1
-
+def write_to_file(file_path, text):
+    with open(file_path, 'a') as file:
+        file.write(text + '\n')
 async def fetch(session, semaphore, sub, target_domain):
     url = f"http://{sub}.{target_domain}"
+    domain=target_domain.strip(".com")
     async with semaphore:
         try:
             async with session.get(url) as response:
                 if response.status == 200:
-                    print("\033[92mValid domain:\033[0m", url)
-                    print("\033[90mStatus:200\033[0m")
+                    write_to_file(f"C:/Users/PC/GIT/Web-Scanner/subdomains_{domain}.txt",url.strip("http://"))
                 elif response.status == 401:
-                    print("\033[92mValid domain:\033[0m", url) 
-                    print("\033[90mStatus:401\033[0m")
+                    write_to_file("C:/Users/PC/GIT/Web-Scanner/test.txt",url.strip("http://"))
         except aiohttp.ClientError as e:
           return None
         except asyncio.TimeoutError as e:

@@ -91,17 +91,24 @@ if (user_choice==1):
             print("-----------------------------------------------\033[0m")
 
 elif(user_choice==2):
-
-    target_domain=input("\033[93mDomaini girin (e.g., example.com):\033[0m ")
-    rate=int(input("\033[93mSubdomainlerin yoxlanilmasini hansi sürətdə istəyirsiniz?(e.g., 3) Note: 20 den yuxari secseniz avtomatik 20 e dusəcək\nbura qeyd edin ->\033[0m "))
+  list=set()
+  user_speed_choice=int(input("\033[93m1.yalniz brute force ile tapmaq\n2.crt.sh saytindan cixartmaq\n->\033[0m "))
+  target_domain=input("\033[93mDomaini girin (e.g., example.com):\033[0m ")
+  domain=target_domain.strip(".com")
+  if(user_speed_choice==1):
+    rate=int(input("\033[93mSubdomainlerin yoxlanilmasini hansi sürətdə istəyirsiniz?(e.g., 3) Note: 20 den yuxari secseniz avtomatik 20 e dusəcək\nbura qeyd edin -> \033[0m "))
 
     if (rate>20):
 
       rate = 20
-
     elif (rate<1):
-
       rate=1
     list=subdomain.load_subdomains_from_file("C://Users/PC/GIT/Web-Scanner/WebScanner/sub_wordlists.txt")
-
     asyncio.run(subdomain.enumerate_subdomains(target_domain,list,rate))
+    print(f"tapilan subdomainler subdomains_{target_domain}.txt filesine yazildi")
+  elif(user_speed_choice==2):
+    list=subdomain.extract_subdomains_from_crtSH(target_domain)
+    with open(f"C:/Users/PC/GIT/Web-Scanner/subdomains_{domain}_crt.txt",'a') as file:
+      file.write("\n".join(list))
+    
+    print(f"tapilan subdomainler subdomains_{domain}_crt.txt filesine yazildi")
