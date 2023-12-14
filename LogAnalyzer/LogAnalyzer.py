@@ -44,13 +44,12 @@ print("\033[94m" + ascii_txt+"\33[0m")
 
 print("\033[93mLog analyzere filterizasiya eleyeceyi log filesin gosterin(e.g., /var/log/auth.log)\033[0m")
 log_file_path=input("\033[92mburda qeyd edin -> \033[0m")
-ssh_alerts,ftp_alerts=LogAnalyzerFunctions.analyze_logs(log_file_path)
+alerts=LogAnalyzerFunctions.analyze_logs(log_file_path)
+LogAnalyzerFunctions.write_to_file(alerts)
+LogAnalyzerFunctions.each_user_sudo(alerts)
 
-LogAnalyzerFunctions.write_to_file(ssh_alerts,"./LogAnalyzer/ssh_logs.log")
-LogAnalyzerFunctions.write_to_file(ftp_alerts,"./LogAnalyzer/ftp.log")
-print("\033[91mssh loglari:/LogAnalyzer/ssh_logs.log\033[0m")
-print("\033[91mftp loglari:/LogAnalyzer/ftp.log\033[0m")
 print("\033[93mqeydlər uğurla filtrləndi\033[0m")
+print("\033[93mbutun filterlenmis loglar output directorysinde yerlesir\033[0m")
 
 
 
