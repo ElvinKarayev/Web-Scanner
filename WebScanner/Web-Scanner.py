@@ -93,7 +93,15 @@ if (user_choice==1):
 elif(user_choice==2):
 
     target_domain=input("\033[93mDomaini girin (e.g., example.com):\033[0m ")
+    rate=int(input("\033[93mSubdomainlerin yoxlanilmasini hansi sürətdə istəyirsiniz?(e.g., 3) Note: 20 den yuxari secseniz avtomatik 20 e dusəcək\nbura qeyd edin ->\033[0m "))
 
+    if (rate>20):
+
+      rate = 20
+
+    elif (rate<1):
+
+      rate=1
     list=subdomain.load_subdomains_from_file("C://Users/PC/GIT/Web-Scanner/WebScanner/sub_wordlists.txt")
 
-    asyncio.run(subdomain.enumerate_subdomains(target_domain,list))
+    asyncio.run(subdomain.enumerate_subdomains(target_domain,list,rate))

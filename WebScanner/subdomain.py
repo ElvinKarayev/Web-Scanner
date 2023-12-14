@@ -1,11 +1,8 @@
 import asyncio
 import aiohttp
-import pyfiglet
 
 
-
-MAX_CONCURRENT_REQUESTS = 10  
-
+MAX_CONCURRENT_REQUESTS=1
 
 async def fetch(session, semaphore, sub, target_domain):
     url = f"http://{sub}.{target_domain}"
@@ -23,7 +20,8 @@ async def fetch(session, semaphore, sub, target_domain):
         except asyncio.TimeoutError as e:
           return None
 
-async def enumerate_subdomains(target_domain, subdomain_list):
+async def enumerate_subdomains(target_domain, subdomain_list, rate):
+    MAX_CONCURRENT_REQUESTS=rate
     semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
     Timeout=aiohttp.ClientTimeout(10)
     async with aiohttp.ClientSession(timeout=Timeout) as session:
