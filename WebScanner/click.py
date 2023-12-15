@@ -32,18 +32,3 @@ def loading_animation_start(seconds):
         sys.stdout.write("\r" + "Program başladılır. Zəhmət olmazsa gözləyin " + chars[_ % len(chars)])
         sys.stdout.flush()
         time.sleep(0.4)
-
-def main():
-    seconds = 3
-    loading_animation_start(seconds)
-
-    domain = input("\n[*] domaini daxil edin: ")
-    domain = domain.strip()
-
-    loading_animation(seconds)
-
-    clickjacking_scan(domain)
-
-
-if __name__ == "__main__":
-    main()
