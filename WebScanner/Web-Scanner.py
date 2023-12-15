@@ -117,17 +117,17 @@ elif(user_choice==2):
     
     print(f"tapilan subdomainler subdomains_{domain}_crt.txt filesine yazildi")
 elif (user_choice==3):
-  target_host = input("Hədəf İp: ")
-  ping_or_not=input("sadece ping etmek ucun p ya da ping yazin: ")
+  target_host = input("\033[93mHədəf İp:\033[0m ")
+  ping_or_not=input("\033[93msadece ping etmek ucun p ya da ping yazin:\033[0m ")
   if(ping_or_not=='p' or ping_or_not=="ping"):
     if(portscanner.is_alive(target_host)):
-      print("end-pointe elaqe var")
+      print("\033[93mend-pointe elaqe var\033[0m")
     else:
-      print("end-pointle elaqe yoxdu")
+      print("\033[93mend-pointle elaqe yoxdu\033[0m")
   else:
-    start_port = int(input("Başlanğıc Portu Yaz: "))
-    end_port = int(input("Bitiş Portu Yaz: "))
+    start_port = int(input("\033[93mBaşlanğıc Portu Yaz:\033[0m "))
+    end_port = int(input("\033[93mBitiş Portu Yaz:\033[0m "))
 
     portscanner.port_scan(target_host, start_port, end_port)
 elif (user_choice==4):
-  print("yaradilacaq")
+  print("\033[93yaradilacaq")

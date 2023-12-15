@@ -38,12 +38,9 @@ def port_scan(target_host, start_port, end_port):
 
     for thread in threads:
         thread.join()
+    if(open_ports):
+        print("Açiq portlar:", open_ports)
+    else:
+        print("portlar ya baglidi ya da firewall qarsini alir")
 
-    print("Açıq portlar:", open_ports)
 
-if __name__ == "__main__":
-    target_host = input("Hədəf İp: ")
-    start_port = int(input("Başlanğıc Portu Yaz: "))
-    end_port = int(input("Bitiş Portu Yaz: "))
-
-    port_scan(target_host, start_port, end_port)
