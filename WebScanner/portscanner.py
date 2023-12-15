@@ -1,3 +1,4 @@
+
 import socket
 import threading
 import subprocess
@@ -44,3 +45,5 @@ def port_scan(target_host, start_port, end_port):
         print("portlar ya baglidi ya da firewall qarsini alir")
 
 
+
+    port_scan(target_host, start_port, end_port)

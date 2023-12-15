@@ -140,3 +140,4 @@ elif (user_choice==4):
   click.loading_animation(seconds)
 
   click.clickjacking_scan(domain)
+
