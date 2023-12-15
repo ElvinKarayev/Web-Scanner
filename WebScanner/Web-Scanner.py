@@ -1,5 +1,6 @@
 import os
 import asyncio
+import click
 import subdomain
 import directoryEnum
 import portscanner
@@ -130,4 +131,12 @@ elif (user_choice==3):
 
     portscanner.port_scan(target_host, start_port, end_port)
 elif (user_choice==4):
-  print("\033[93yaradilacaq")
+  seconds = 3
+  click.loading_animation_start(seconds)
+
+  domain = input("\n[*] domaini daxil edin: ")
+  domain = domain.strip()
+
+  click.loading_animation(seconds)
+
+  click.clickjacking_scan(domain)
