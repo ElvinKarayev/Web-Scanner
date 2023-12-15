@@ -2,6 +2,7 @@ import os
 import asyncio
 import subdomain
 import directoryEnum
+import portscanner
 
 
 ascii_txt = """"
@@ -50,7 +51,10 @@ print("\033[94m" + ascii_txt+"\33[0m")
 print("\033[91mHansini islətmək istiyirsiz?\033[0m")
 
 print("""\033[92m1.Directory Enumeration
-2.SubDomain Enumeration""")
+2.SubDomain Enumeration
+3.Port Scanner
+4.Clickjacking""")
+
 
 user_choice=int(input("burda qeyd eləyin->\033[0m "))
 
@@ -112,3 +116,18 @@ elif(user_choice==2):
       file.write("\n".join(list))
     
     print(f"tapilan subdomainler subdomains_{domain}_crt.txt filesine yazildi")
+elif (user_choice==3):
+  target_host = input("Hədəf İp: ")
+  ping_or_not=input("sadece ping etmek ucun p ya da ping yazin: ")
+  if(ping_or_not=='p' or ping_or_not=="ping"):
+    if(portscanner.is_alive(target_host)):
+      print("end-pointe elaqe var")
+    else:
+      print("end-pointle elaqe yoxdu")
+  else:
+    start_port = int(input("Başlanğıc Portu Yaz: "))
+    end_port = int(input("Bitiş Portu Yaz: "))
+
+    portscanner.port_scan(target_host, start_port, end_port)
+elif (user_choice==4):
+  print("yaradilacaq")
