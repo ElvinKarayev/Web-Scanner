@@ -1,11 +1,12 @@
+
 import socket
 import threading
 import subprocess
 
 def is_alive(target_host):
     try:
-        result = subprocess.run(["ping", "-c", "1", target_host], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        if "1 packets transmitted, 1 received" in result.stdout:
+        result = subprocess.run(["ping", "-n", "4", target_host], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)#helelik windows ucundu bu deyisilmelidi linux ucun
+        if "Sent = 4, Received = 4" in result.stdout:#buda hemcinin
             return True
     except:
         pass
@@ -38,12 +39,11 @@ def port_scan(target_host, start_port, end_port):
 
     for thread in threads:
         thread.join()
+    if(open_ports):
+        print("Açiq portlar:", open_ports)
+    else:
+        print("portlar ya baglidi ya da firewall qarsini alir")
 
-    print("Açıq portlar:", open_ports)
 
-if __name__ == "__main__":
-    target_host = input("Hədəf İp: ")
-    start_port = int(input("Başlanğıc Portu Yaz: "))
-    end_port = int(input("Bitiş Portu Yaz: "))
 
     port_scan(target_host, start_port, end_port)

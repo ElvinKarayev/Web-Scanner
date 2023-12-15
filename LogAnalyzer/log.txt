@@ -14,6 +14,26 @@ Jun 15 02:04:59 combo sshd(pam_unix)[20898]: authentication failure; logname= ui
 Jun 15 04:06:18 combo su(pam_unix)[21416]: session opened for user cyrus by (uid=0)
 Jun 15 04:06:19 combo su(pam_unix)[21416]: session closed for user cyrus
 Jun 15 04:06:20 combo logrotate: ALERT exited abnormally with [1]
+Aug 17 10:30:01 hostname sudo: jennifer : TTY=pts/1 ; PWD=/home/jennifer ; USER=root ; COMMAND=/bin/systemctl restart nginx
+Sep 05 12:45:22 hostname sudo: martin : TTY=pts/3 ; PWD=/var/www/html ; USER=root ; COMMAND=/usr/bin/apt-get update
+Oct 03 08:10:15 hostname sudo: sarah : TTY=pts/2 ; PWD=/home/sarah ; USER=root ; COMMAND=/bin/nano /etc/hosts
+Nov 11 07:20:30 hostname sudo: alex : TTY=pts/4 ; PWD=/home/alex ; USER=root ; COMMAND=/usr/sbin/usermod -aG sudo kate
+Dec 01 09:55:00 hostname sudo: luke : TTY=pts/5 ; PWD=/etc/apache2 ; USER=root ; COMMAND=/usr/bin/apt-get install apache2
+Jan 21 11:45:17 hostname sudo: emily : TTY=pts/6 ; PWD=/home/emily ; USER=root ; COMMAND=/sbin/shutdown -r now
+Feb 18 13:50:22 hostname sudo: daniel : TTY=pts/7 ; PWD=/ ; USER=root ; COMMAND=/bin/rm -rf /tmp/*
+Mar 14 15:15:33 hostname sudo: olivia : TTY=pts/0 ; PWD=/root ; USER=root ; COMMAND=/usr/bin/add-apt-repository ppa:example/ppa
+Apr 12 16:05:45 hostname sudo: ethan : TTY=pts/2 ; PWD=/home/ethan ; USER=root ; COMMAND=/usr/sbin/visudo
+May 19 17:30:01 hostname sudo: mia : TTY=pts/1 ; PWD=/home/mia ; USER=root ; COMMAND=/usr/bin/apt-get upgrade
+Jun 23 18:40:10 hostname sudo: noah : TTY=pts/3 ; PWD=/home/noah ; USER=root ; COMMAND=/usr/bin/git clone https://example.com/repo.git
+Jul 27 19:55:55 hostname sudo: chloe : TTY=pts/4 ; PWD=/home/chloe ; USER=root ; COMMAND=/bin/cp /etc/skel/.bashrc /home/chloe/
+Aug 08 20:45:22 hostname sudo: ethan : TTY=pts/5 ; PWD=/var/log ; USER=root ; COMMAND=/usr/bin/tail -f /var/log/syslog
+Sep 16 21:30:00 hostname sudo: grace : TTY=pts/6 ; PWD=/home/grace ; USER=root ; COMMAND=/usr/bin/dpkg --configure -a
+Oct 25 22:15:17 hostname sudo: jack : TTY=pts/7 ; PWD=/home/jack ; USER=root ; COMMAND=/usr/bin/passwd jack
+Nov 29 23:50:05 hostname sudo: lily : TTY=pts/0 ; PWD=/home/lily ; USER=root ; COMMAND=/bin/ls -la /home/lily
+Dec 31 14:25:30 hostname sudo: james : TTY=pts/2 ; PWD=/home/james ; USER=root ; COMMAND=/bin/mkdir /home/james/new_folder
+Jan 15 15:05:48 hostname sudo: isabella : TTY=pts/1 ; PWD=/home/isabella ; USER=root ; COMMAND=/usr/bin/chown isabella:isabella /home/isabella
+Feb 26 16:30:21 hostname sudo: michael : TTY=pts/3 ; PWD=/home/michael ; USER=root ; COMMAND=/bin/echo "Hello World" > /home/michael/hello.txt
+Mar 30 17:45:12 hostname sudo: sophia : TTY=pts/4 ; PWD=/home/sophia ; USER=root ; COMMAND=/usr/bin/vim /home/sophia/document.txt
 Jun 15 04:12:42 combo su(pam_unix)[22644]: session opened for user news by (uid=0)
 Jun 15 04:12:43 combo su(pam_unix)[22644]: session closed for user news
 Jun 15 12:12:34 combo sshd(pam_unix)[23397]: check pass; user unknown

@@ -1,7 +1,9 @@
 import os
 import asyncio
+import click
 import subdomain
 import directoryEnum
+import portscanner
 
 
 ascii_txt = """"
@@ -50,7 +52,10 @@ print("\033[94m" + ascii_txt+"\33[0m")
 print("\033[91mHansini islətmək istiyirsiz?\033[0m")
 
 print("""\033[92m1.Directory Enumeration
-2.SubDomain Enumeration""")
+2.SubDomain Enumeration
+3.Port Scanner
+4.Clickjacking""")
+
 
 user_choice=int(input("burda qeyd eləyin->\033[0m "))
 
@@ -91,11 +96,48 @@ if (user_choice==1):
             print("-----------------------------------------------\033[0m")
 
 elif(user_choice==2):
+  list=set()
+  user_speed_choice=int(input("\033[93m1.yalniz brute force ile tapmaq\n2.crt.sh saytindan cixartmaq\n->\033[0m "))
+  target_domain=input("\033[93mDomaini girin (e.g., example.com):\033[0m ")
+  domain=target_domain.strip(".com")
+  if(user_speed_choice==1):
+    rate=int(input("\033[93mSubdomainlerin yoxlanilmasini hansi sürətdə istəyirsiniz?(e.g., 3) Note: 20 den yuxari secseniz avtomatik 20 e dusəcək\nbura qeyd edin -> \033[0m "))
 
-    target_domain=input("\033[93mDomaini girin (e.g., example.com):\033[0m ")
+    if (rate>20):
 
-    #list=subdomain.load_subdomains_from_file("/Users/elvingarayev/Internship_Project/Web-Scanner/WebScanner/sub_wordlists.txt")
+      rate = 20
+    elif (rate<1):
+      rate=1
+    list=subdomain.load_subdomains_from_file("C://Users/PC/GIT/Web-Scanner/WebScanner/sub_wordlists.txt")
+    asyncio.run(subdomain.enumerate_subdomains(target_domain,list,rate))
+    print(f"tapilan subdomainler subdomains_{target_domain}.txt filesine yazildi")
+  elif(user_speed_choice==2):
+    list=subdomain.extract_subdomains_from_crtSH(target_domain)
+    with open(f"C:/Users/PC/GIT/Web-Scanner/subdomains_{domain}_crt.txt",'a') as file:
+      file.write("\n".join(list))
+    
+    print(f"tapilan subdomainler subdomains_{domain}_crt.txt filesine yazildi")
+elif (user_choice==3):
+  target_host = input("\033[93mHədəf İp:\033[0m ")
+  ping_or_not=input("\033[93msadece ping etmek ucun p ya da ping yazin:\033[0m ")
+  if(ping_or_not=='p' or ping_or_not=="ping"):
+    if(portscanner.is_alive(target_host)):
+      print("\033[93mend-pointe elaqe var\033[0m")
+    else:
+      print("\033[93mend-pointle elaqe yoxdu\033[0m")
+  else:
+    start_port = int(input("\033[93mBaşlanğıc Portu Yaz:\033[0m "))
+    end_port = int(input("\033[93mBitiş Portu Yaz:\033[0m "))
 
-    #asyncio.run(subdomain.enumerate_subdomains(target_domain,list))
-    print(subdomain.extract_subdomains_from_crtSH(target_domain))
+    portscanner.port_scan(target_host, start_port, end_port)
+elif (user_choice==4):
+  seconds = 3
+  click.loading_animation_start(seconds)
+
+  domain = input("\n[*] domaini daxil edin: ")
+  domain = domain.strip()
+
+  click.loading_animation(seconds)
+
+  click.clickjacking_scan(domain)
 
